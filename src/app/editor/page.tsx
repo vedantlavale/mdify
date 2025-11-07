@@ -7,6 +7,7 @@ import "github-markdown-css/github-markdown.css";
 import "highlight.js/styles/atom-one-dark.css";
 import remarkGfm from "remark-gfm";
 import rehypeHighlight from "rehype-highlight";
+import rehypeRaw from "rehype-raw";
 import { ReviewToolbar } from "@/components/toolbar";
 import {
   ResizableHandle,
@@ -42,11 +43,8 @@ export default function EditorPage() {
             setTitle(data.title || "Medium2Markdown");
           }
         } catch (error: unknown) {
-          if (error instanceof Error) {
-            setMarkdown(error.message);
-          } else {
-            setMarkdown("An unexpected error occurred.");
-          }
+          const errorMessage = error instanceof Error ? error.message : "An unexpected error occurred.";
+          setMarkdown("# Error\n\n" + errorMessage);
         } finally {
           setLoading(false);
         }
@@ -83,10 +81,11 @@ export default function EditorPage() {
                     <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-black"></div>
                   </div>
                 ) : (
+                  // Markdown Preview (including errors with embeds)
                   <div className="markdown-body bg-white text-black">
                     <ReactMarkdown
                       remarkPlugins={[remarkGfm]}
-                      rehypePlugins={[rehypeHighlight]}
+                      rehypePlugins={[rehypeRaw, rehypeHighlight]}
                     >
                       {markdown}
                     </ReactMarkdown>

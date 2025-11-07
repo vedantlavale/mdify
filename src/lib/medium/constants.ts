@@ -8,7 +8,7 @@ export const DEFAULT_AUTHOR = "Unknown Author";
 
 export const ERROR_NO_ARTICLE = "Error: No article found on the page.";
 export const ERROR_INVALID_URL = "# Invalid URL: Please use a medium.com URL.";
-export const INVALID_URL_VIDEO_ID = "xvFZjo5PgG0";
+export const INVALID_URL_VIDEO_ID = "2qBlE2-WL60";
 
 export const UNDESIRED_LINES = new Set([
   "·",
