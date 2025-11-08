@@ -19,7 +19,7 @@ const bricolageGrotesque = Bricolage_Grotesque({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://medium-to-md-vert.vercel.app'),
+  metadataBase: new URL('https://mdify.vedant.works/'),
   title: "mdify - Convert Medium Articles to Markdown | Free Online Tool",
   description: "Convert any Medium article to clean, editable Markdown format instantly. Free online tool to transform Medium posts into Markdown files for your blog, documentation, or notes.",
   keywords: [
@@ -54,7 +54,7 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     locale: "en_US",
-    url: "https://medium-to-md-vert.vercel.app",
+    url: "https://mdify.vedant.works/",
     title: "mdify - Convert Medium Articles to Markdown",
     description: "Convert any Medium article to clean, editable Markdown format instantly. Free online tool for content creators and developers.",
     siteName: "mdify",
@@ -75,7 +75,7 @@ export const metadata: Metadata = {
     images: ["/og-image.png"],
   },
   alternates: {
-    canonical: "https://medium-to-md-vert.vercel.app",
+    canonical: "https://mdify.vedant.works/",
   },
   category: "Technology",
   classification: "Productivity Tool",
@@ -102,7 +102,7 @@ export default function RootLayout({
     "@type": "WebApplication",
     "name": "mdify",
     "description": "Convert Medium articles to Markdown format instantly. Free online tool for content creators and developers.",
-    "url": "https://medium-to-md-vert.vercel.app",
+    "url": "https://mdify.vedant.works/",
     "applicationCategory": "ProductivityApplication",
     "operatingSystem": "Web Browser",
     "offers": {
