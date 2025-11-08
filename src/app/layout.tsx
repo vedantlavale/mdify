@@ -19,6 +19,7 @@ const bricolageGrotesque = Bricolage_Grotesque({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL('https://mdify.vercel.app'),
   title: "mdify - Convert Medium Articles to Markdown | Free Online Tool",
   description: "Convert any Medium article to clean, editable Markdown format instantly. Free online tool to transform Medium posts into Markdown files for your blog, documentation, or notes.",
   keywords: [
@@ -78,16 +79,17 @@ export const metadata: Metadata = {
   },
   category: "Technology",
   classification: "Productivity Tool",
-  viewport: {
-    width: "device-width",
-    initialScale: 1,
-    maximumScale: 1,
-  },
   icons: {
     icon: "/favicon.ico",
     apple: "/apple-touch-icon.png",
   },
   manifest: "/site.webmanifest",
+};
+
+export const viewport = {
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 1,
 };
 
 export default function RootLayout({

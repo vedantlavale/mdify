@@ -2,7 +2,7 @@ import { SidebarProvider } from "@/components/ui/sidebar"
 // import { AppSidebar } from "@/components/app-sidebar"
 import { Toaster } from "@/components/ui/sonner"
 import { Suspense } from "react"
-import { Metadata } from "next"
+import type { Metadata } from "next"
 
 export const metadata: Metadata = {
   title: "Editor - mdify | Convert and Edit Markdown",
