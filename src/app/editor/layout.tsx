@@ -3,6 +3,7 @@ import { SidebarProvider } from "@/components/ui/sidebar"
 import { Toaster } from "@/components/ui/sonner"
 import { Suspense } from "react"
 import type { Metadata } from "next"
+import { Analytics } from "@vercel/analytics/next";
 
 export const metadata: Metadata = {
   title: "Editor - mdify | Convert and Edit Markdown",
@@ -21,6 +22,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         <main className="flex-1 flex flex-col h-full overflow-hidden">
           <Suspense fallback={<div>Loading...</div>}>
             {children}
+            <Analytics/>
           </Suspense>
           <Toaster /> 
         </main>
