@@ -186,3 +186,50 @@
 .animation-delay-600 {
   animation-delay: 0.6s;
 }
+
+/* Mobile-specific responsive styles */
+@media (max-width: 640px) {
+  .markdown-body {
+    font-size: 14px !important;
+    line-height: 1.5 !important;
+  }
+  
+  .markdown-body h1 {
+    font-size: 1.75rem !important;
+  }
+  
+  .markdown-body h2 {
+    font-size: 1.5rem !important;
+  }
+  
+  .markdown-body h3 {
+    font-size: 1.25rem !important;
+  }
+  
+  .markdown-body pre {
+    font-size: 12px !important;
+    overflow-x: auto !important;
+  }
+  
+  .markdown-body code {
+    font-size: 12px !important;
+  }
+  
+  .markdown-body table {
+    font-size: 12px !important;
+  }
+}
+
+/* Ensure proper touch targets on mobile */
+@media (max-width: 768px) {
+  button, 
+  input, 
+  textarea {
+    min-height: 44px;
+  }
+  
+  /* Special handling for toolbar buttons which are intentionally smaller */
+  .toolbar-btn {
+    min-height: 32px !important;
+  }
+}
