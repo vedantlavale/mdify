@@ -206,7 +206,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 If you find this tool useful, consider supporting the project:
 
-[![Buy Me A Coffee](https://img.shields.io/badge/Buy%20Me%20A%20Coffee-Support-yellow)](https://buymeacoffee.com/vedantlavale)
+[![Buy Me A Coffee](https://img.shields.io/badge/Buy%20Me%20A%20Coffee-Support-yellow)](https://buymeacoffee.com/0xVedant)
 
 ## Acknowledgments
 
@@ -217,7 +217,7 @@ If you find this tool useful, consider supporting the project:
 
 ## Author
 
-Created by [Vedant Lavale](https://vedant.works/)
+Created by [Vedant](https://vedant.works/)
 
 ---
 
