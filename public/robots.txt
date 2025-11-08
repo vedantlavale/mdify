@@ -1,0 +1,12 @@
+User-agent: *
+Allow: /
+
+# Optimize crawl budget
+Allow: /api/convert
+Disallow: /api/
+
+# Sitemaps
+Sitemap: https://mdify.vercel.app/sitemap.xml
+
+# Crawl-delay for respectful crawling
+Crawl-delay: 1

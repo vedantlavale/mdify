@@ -2,6 +2,16 @@ import { SidebarProvider } from "@/components/ui/sidebar"
 // import { AppSidebar } from "@/components/app-sidebar"
 import { Toaster } from "@/components/ui/sonner"
 import { Suspense } from "react"
+import { Metadata } from "next"
+
+export const metadata: Metadata = {
+  title: "Editor - mdify | Convert and Edit Markdown",
+  description: "Edit and refine your converted Medium articles in Markdown format. Real-time preview, formatting tools, and instant download options.",
+  robots: {
+    index: false, // Don't index dynamic editor pages
+    follow: true,
+  },
+};
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   return (

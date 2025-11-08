@@ -51,7 +51,9 @@ export const Navbar01 = React.forwardRef<HTMLElement, React.HTMLAttributes<HTMLE
           {/* Left side - Logo and Brand */}
           <div className="flex items-center gap-2 sm:gap-3 shrink-0">
             <Logo />
-            <span className="text-white font-bold text-lg sm:text-xl font-bricolage">mdify</span>
+            <span className="text-white font-bold text-lg sm:text-xl font-bricolage" itemProp="name">
+              mdify
+            </span>
           </div>
           
           {/* Right side - Social links */}

@@ -25,9 +25,14 @@ export default function Page() {
   }
 
   return (
-    <div className="w-full min-h-screen relative overflow-hidden bg-black">
+    <div className="w-full min-h-screen relative overflow-hidden bg-black" itemScope itemType="https://schema.org/WebApplication">
+      <meta itemProp="name" content="mdify" />
+      <meta itemProp="description" content="Convert Medium articles to Markdown format instantly" />
+      <meta itemProp="url" content="https://mdify.vercel.app" />
+      <meta itemProp="applicationCategory" content="ProductivityApplication" />
+      
       {/* GradientBlinds Background */}
-      <div className="absolute inset-0 w-full h-full">
+      <div className="absolute inset-0 w-full h-full" aria-hidden="true">
         <Beams
           beamWidth={2}
           beamHeight={15}
@@ -50,42 +55,122 @@ export default function Page() {
       >
         <Navbar01/>
         
-        <div className="relative z-10 flex items-center justify-center min-h-screen px-4 sm:px-6 lg:px-8">
-          <div className="flex flex-col items-center justify-center max-w-4xl w-full text-center space-y-6 sm:space-y-8 font-bricolage">
+        <main className="relative z-10 flex items-center justify-center min-h-screen px-4 sm:px-6 lg:px-8">
+          <section className="flex flex-col items-center justify-center max-w-4xl w-full text-center space-y-6 sm:space-y-8 font-bricolage">
             {/* Heading */}
-            <TextType 
-              text={["Convert Medium to Markdown", "Clean, editable content", "Ready in seconds!"]}
-              typingSpeed={75}
-              pauseDuration={1500}
-              showCursor={true}
-              cursorCharacter="|"
-              className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-medium tracking-tight text-white px-2"
-            />
+            <header>
+              <h1 className="sr-only">mdify - Convert Medium Articles to Markdown</h1>
+              <TextType 
+                text={["Convert Medium to Markdown", "Clean, editable content", "Ready in seconds!"]}
+                typingSpeed={75}
+                pauseDuration={1500}
+                showCursor={true}
+                cursorCharacter="|"
+                className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-medium tracking-tight text-white px-2"
+              />
+            </header>
             
             {/* Description */}
             <p className="text-sm sm:text-base md:text-lg text-gray-300 max-w-2xl px-4 leading-relaxed">
-              Paste any Medium link below and instantly get a Markdown version formatted, editable, and ready for your site or notes.
+              Transform any Medium article into clean, editable Markdown format instantly. Perfect for developers, writers, and content creators who need portable, standardized content.
             </p>
             
-            {/* Input Section */}
-            <div className="w-full max-w-3xl flex flex-col sm:flex-row gap-3 sm:gap-2 px-4 sm:px-0">
+            {/* SEO Content - Hidden but crawlable */}
+            <div className="sr-only" itemScope itemType="https://schema.org/FAQPage">
+              <h2>Frequently Asked Questions about mdify</h2>
+              
+              <div itemScope itemType="https://schema.org/Question" itemProp="mainEntity">
+                <h3 itemProp="name">How do I convert a Medium article to Markdown?</h3>
+                <div itemScope itemType="https://schema.org/Answer" itemProp="acceptedAnswer">
+                  <div itemProp="text">
+                    Simply paste the Medium article URL into the input field above and click &ldquo;Convert to Markdown&rdquo;. 
+                    mdify will instantly transform the article into clean, editable Markdown format.
+                  </div>
+                </div>
+              </div>
+
+              <div itemScope itemType="https://schema.org/Question" itemProp="mainEntity">
+                <h3 itemProp="name">Is mdify free to use?</h3>
+                <div itemScope itemType="https://schema.org/Answer" itemProp="acceptedAnswer">
+                  <div itemProp="text">
+                    Yes, mdify is completely free to use. No registration, no limits, no hidden fees. 
+                    Convert as many Medium articles to Markdown as you need.
+                  </div>
+                </div>
+              </div>
+
+              <div itemScope itemType="https://schema.org/Question" itemProp="mainEntity">
+                <h3 itemProp="name">What formats does mdify support?</h3>
+                <div itemScope itemType="https://schema.org/Answer" itemProp="acceptedAnswer">
+                  <div itemProp="text">
+                    mdify converts Medium articles to standard Markdown format (.md files). 
+                    The output is compatible with GitHub, GitLab, documentation sites, and any Markdown processor.
+                  </div>
+                </div>
+              </div>
+
+              <div itemScope itemType="https://schema.org/Question" itemProp="mainEntity">
+                <h3 itemProp="name">Does mdify preserve formatting from Medium articles?</h3>
+                <div itemScope itemType="https://schema.org/Answer" itemProp="acceptedAnswer">
+                  <div itemProp="text">
+                    Yes, mdify preserves headings, bold text, italics, links, lists, and other formatting elements 
+                    from the original Medium article while converting them to proper Markdown syntax.
+                  </div>
+                </div>
+              </div>
+
+              <h2>Key Features of mdify</h2>
+              <ul>
+                <li>Instant Medium to Markdown conversion</li>
+                <li>Clean, properly formatted output</li>
+                <li>Preserves article structure and formatting</li>
+                <li>Free and no registration required</li>
+                <li>Real-time preview and editing</li>
+                <li>Download ready .md files</li>
+                <li>Perfect for documentation, blogs, and note-taking</li>
+                <li>Compatible with GitHub, GitLab, and static site generators</li>
+                <li>Mobile-friendly responsive design</li>
+                <li>Copy to clipboard functionality</li>
+              </ul>
+            </div>
+            
+            {/* Converter Form */}
+            <form 
+              onSubmit={(e) => {
+                e.preventDefault();
+                navigateToEditor();
+              }}
+              className="w-full max-w-3xl flex flex-col sm:flex-row gap-3 sm:gap-2 px-4 sm:px-0"
+              role="search"
+              aria-label="Medium to Markdown converter"
+            >
+              <label htmlFor="medium-url" className="sr-only">
+                Medium article URL
+              </label>
               <input
+                id="medium-url"
                 type="url"
                 value={url}
                 onChange={(e)=>setUrl(e.target.value)}
-                placeholder="Enter Medium blog URL"
+                placeholder="Enter Medium article URL (e.g., https://medium.com/@author/article-title)"
                 className="flex-1 h-11 sm:h-12 px-3 sm:px-4 rounded-lg border border-gray-300 bg-white text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-400 text-sm sm:text-base"
+                required
+                aria-describedby="url-help"
               />
+              <div id="url-help" className="sr-only">
+                Enter a valid Medium article URL to convert it to Markdown format
+              </div>
 
               <Button 
-                onClick={navigateToEditor} 
+                type="submit"
                 className="h-11 sm:h-12 px-4 sm:px-6 rounded-lg bg-blend-color text-white font-medium transition-colors w-full sm:w-auto text-sm sm:text-base"
+                aria-label="Convert Medium article to Markdown"
               >
-                Convert
+                Convert to Markdown
               </Button>
-            </div>
-          </div>
-        </div>
+            </form>
+          </section>
+        </main>
 
         {/* Buy Me a Coffee Popover */}
         <div className="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-50">

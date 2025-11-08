@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono, Bricolage_Grotesque } from "next/font/google";
+import GoogleAnalytics from "@/components/GoogleAnalytics";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -24,6 +25,9 @@ export const metadata: Metadata = {
   keywords: [
     "medium to markdown",
     "convert medium article",
+     "convert medium article to md",
+      "convert medium blogs to md",
+       "medium to md",
     "markdown converter",
     "medium export",
     "blog converter",
@@ -75,6 +79,16 @@ export const metadata: Metadata = {
   },
   category: "Technology",
   classification: "Productivity Tool",
+  viewport: {
+    width: "device-width",
+    initialScale: 1,
+    maximumScale: 1,
+  },
+  icons: {
+    icon: "/favicon.ico",
+    apple: "/apple-touch-icon.png",
+  },
+  manifest: "/site.webmanifest",
 };
 
 export default function RootLayout({
@@ -82,11 +96,48 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const structuredData = {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "mdify",
+    "description": "Convert Medium articles to Markdown format instantly. Free online tool for content creators and developers.",
+    "url": "https://mdify.vercel.app",
+    "applicationCategory": "ProductivityApplication",
+    "operatingSystem": "Web Browser",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "USD"
+    },
+    "creator": {
+      "@type": "Person",
+      "name": "Vedant Lavale",
+      "url": "https://github.com/vedantlavale"
+    },
+    "featureList": [
+      "Convert Medium articles to Markdown",
+      "Clean and editable output",
+      "Instant conversion",
+      "Free to use",
+      "No registration required"
+    ]
+  };
+
   return (
     <html lang="en">
+      <head>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(structuredData),
+          }}
+        />
+
+      </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} ${bricolageGrotesque.variable} antialiased`}
       >
+        <GoogleAnalytics GA_MEASUREMENT_ID={process.env.NEXT_PUBLIC_GA_ID} />
         {children}
       </body>
     </html>
