@@ -28,7 +28,15 @@ export async function GET(request: Request) {
     if ("error" in result && result.error) {
       // rate limit error
       const isRateLimit = result.markdown.toLowerCase().includes("rate limit");
-      const status = isRateLimit ? 429 : 500;
+      const isForbidden = result.markdown.toLowerCase().includes("403 forbidden");
+      const status = isRateLimit ? 429 : isForbidden ? 403 : 500;
+
+      if (isForbidden) {
+        return NextResponse.json(
+          { error: true, markdown: "This article is not publicly accessible or Medium is blocking automated requests. Please try a different article or check if it requires a subscription." },
+          { status }
+        );
+      }
 
       return NextResponse.json(
         { error: true, markdown: result.markdown },

@@ -17,6 +17,7 @@ import {
 import { RefreshCcw } from "lucide-react";
 import { useEditorStore } from "@/store/EditorStore";
 import { useIsMobile } from "@/hooks/use-mobile";
+import TurndownService from "turndown";
 
 export default function EditorPage() {
   const searchParams = useSearchParams();
@@ -36,14 +37,14 @@ export default function EditorPage() {
       setLoading(true);
       (async () => {
         try {
-          const res = await fetch(`/api/convert?url=${encodeURIComponent(url)}`);
+          const res = await fetch(`/api/fetch-html?url=${encodeURIComponent(url)}`);
           const data = await res.json();
           if (data.error) {
-            setMarkdown(data.markdown);
-          } else {
-            setMarkdown(data.markdown);
-            setTitle(data.title || "Medium2Markdown");
+            throw new Error(data.error);
           }
+          setMarkdown(data.markdown);
+          setTitle(data.title || "Medium2Markdown");
+          document.title = data.title || "Medium2Markdown";
         } catch (error: unknown) {
           const errorMessage = error instanceof Error ? error.message : "An unexpected error occurred.";
           setMarkdown("# Error\n\n" + errorMessage);
