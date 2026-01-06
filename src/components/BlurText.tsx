@@ -1,5 +1,7 @@
-import { motion, Transition, Easing } from 'motion/react';
+import { motion } from 'framer-motion';
 import { useEffect, useRef, useState, useMemo } from 'react';
+
+type EasingType = (t: number) => number;
 
 type BlurTextProps = {
   text?: string;
@@ -11,7 +13,7 @@ type BlurTextProps = {
   rootMargin?: string;
   animationFrom?: Record<string, string | number>;
   animationTo?: Array<Record<string, string | number>>;
-  easing?: Easing | Easing[];
+  easing?: EasingType | EasingType[];
   onAnimationComplete?: () => void;
   stepDuration?: number;
 };
@@ -92,7 +94,7 @@ const BlurText: React.FC<BlurTextProps> = ({
       {elements.map((segment, index) => {
         const animateKeyframes = buildKeyframes(fromSnapshot, toSnapshots);
 
-        const spanTransition: Transition = {
+        const spanTransition = {
           duration: totalDuration,
           times,
           delay: (index * delay) / 1000,
@@ -102,14 +104,17 @@ const BlurText: React.FC<BlurTextProps> = ({
         return (
           <motion.span
             key={index}
-            initial={fromSnapshot}
-            animate={inView ? animateKeyframes : fromSnapshot}
-            transition={spanTransition}
-            onAnimationComplete={index === elements.length - 1 ? onAnimationComplete : undefined}
-            style={{
-              display: 'inline-block',
-              willChange: 'transform, filter, opacity'
-            }}
+            {...({
+              initial: fromSnapshot,
+              animate: inView ? animateKeyframes : fromSnapshot,
+              transition: spanTransition,
+              onAnimationComplete: index === elements.length - 1 ? onAnimationComplete : undefined,
+              style: {
+                display: 'inline-block',
+                willChange: 'transform, filter, opacity'
+              }
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            } as any)}
           >
             {segment === ' ' ? '\u00A0' : segment}
             {animateBy === 'words' && index < elements.length - 1 && '\u00A0'}

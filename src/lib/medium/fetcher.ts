@@ -1,6 +1,5 @@
 // HTTP fetching logic for Medium articles
 
-import axios, { AxiosError } from "axios";
 import { HEADERS } from "./constants";
 
 // Sleep utility for retry delays
@@ -15,16 +14,20 @@ export async function fetchArticleHtml(
 
   for (let attempt = 0; attempt < maxRetries; attempt++) {
     try {
-      const response = await axios.get(url, {
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 30000);
+
+      const response = await fetch(url, {
         headers: HEADERS,
-        timeout: 30000, 
-        validateStatus: (status) => status < 500, 
+        signal: controller.signal,
       });
+
+      clearTimeout(timeoutId);
 
       // Handle rate limiting
       if (response.status === 429) {
         const retryAfter = parseInt(
-          response.headers["retry-after"] || "60",
+          response.headers.get("retry-after") || "60",
           10
         );
         const delay = Math.min(retryAfter * 1000, 60000); 
@@ -49,34 +52,14 @@ export async function fetchArticleHtml(
         );
       }
 
-      return response.data;
+      if (!response.ok) {
+         throw new Error(`Failed to fetch article: ${response.status} ${response.statusText}`);
+      }
+
+      return await response.text();
     } catch (error) {
       lastError = error as Error;
-
-      // Log the error details
-      if (axios.isAxiosError(error)) {
-        console.error(`Fetch attempt ${attempt + 1} failed:`, {
-          status: error.response?.status,
-          statusText: error.response?.statusText,
-          data: error.response?.data?.substring(0, 200), // first 200 chars
-          message: error.message,
-        });
-      } else {
-        console.error(`Fetch attempt ${attempt + 1} failed:`, error);
-      }
-
-      // Don't retry on client errors (4xx)
-      if (axios.isAxiosError(error)) {
-        const axiosError = error as AxiosError;
-        if (
-          axiosError.response &&
-          axiosError.response.status >= 400 &&
-          axiosError.response.status < 500 &&
-          axiosError.response.status !== 429
-        ) {
-          throw error;
-        }
-      }
+      console.error(`Fetch attempt ${attempt + 1} failed:`, error);
 
       // Exponential backoff for retries
       if (attempt < maxRetries - 1) {

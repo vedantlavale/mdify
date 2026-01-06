@@ -14,6 +14,7 @@ import {
   Unlink,
   Copy,
   Download,
+  FileText,
   FileX2,
   Pencil,
 } from "lucide-react";
@@ -119,6 +120,44 @@ export function ReviewToolbar() {
           >
             <Copy className="w-3 h-3 sm:w-4 sm:h-4 mr-1 sm:mr-2" />
             <span className="hidden xs:inline">Copy</span>
+          </Button>
+
+          <Button
+            onClick={async () => {
+              const element = document.querySelector(".markdown-body") as HTMLElement;
+              if (element) {
+                try {
+                  const html2pdf = (await import("html2pdf.js")).default;
+                  const opt = {
+                    margin: [0.5, 0.5],
+                    filename: `${title}.pdf`,
+                    image: { type: "jpeg" as const, quality: 0.98 },
+                    html2canvas: { scale: 4, useCORS: true, letterRendering: true },
+                    jsPDF: { unit: "in", format: "letter", orientation: "portrait" },
+                    pagebreak: { mode: ['css', 'legacy'] }
+                  };
+                  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                  html2pdf().set(opt as any).from(element).save();
+                  toast({
+                    title: "PDF Download Started",
+                    description: "Your PDF is being generated and will download shortly.",
+                  });
+                } catch (error) {
+                  console.error("PDF generation failed:", error);
+                  toast({
+                    title: "Error",
+                    description: "Failed to generate PDF.",
+                    variant: "destructive",
+                  });
+                }
+              }
+            }}
+            className="hidden sm:flex outline-none shadow-lg transform active:scale-95 transition-all hover:bg-zinc-900 hover:text-white text-xs sm:text-sm px-2 sm:px-3 h-7 sm:h-8"
+            variant="ghost"
+            size="sm"
+          >
+            <FileText className="w-3 h-3 sm:w-4 sm:h-4 mr-1 sm:mr-2" />
+            PDF
           </Button>
 
           <Button

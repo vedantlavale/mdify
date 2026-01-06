@@ -17,7 +17,6 @@ import {
 import { RefreshCcw } from "lucide-react";
 import { useEditorStore } from "@/store/EditorStore";
 import { useIsMobile } from "@/hooks/use-mobile";
-import TurndownService from "turndown";
 
 export default function EditorPage() {
   const searchParams = useSearchParams();

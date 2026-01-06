@@ -54,11 +54,11 @@ export async function GET(request: Request) {
       },
       replacement: function (content, node) {
         if (!content.trim()) return ''; // Remove links with no text
-        var href = node.getAttribute('href');
+        let href = node.getAttribute('href');
         if (href && href.startsWith('/')) {
           href = "https://medium.com" + href;
         }
-        var title = node.title ? ' "' + node.title + '"' : '';
+        const title = node.title ? ' "' + node.title + '"' : '';
         return '[' + content + '](' + href + title + ')';
       }
     });
@@ -66,9 +66,9 @@ export async function GET(request: Request) {
     turndownService.addRule('mediumFigure', {
       filter: 'figure',
       replacement: function (_, node) {
-        var source = node.querySelector('source');
-        var srcset = source ? source.getAttribute('srcset') : '';
-        var caption = node.querySelector('figcaption')?.textContent;
+        const source = node.querySelector('source');
+        const srcset = source ? source.getAttribute('srcset') : '';
+        let caption = node.querySelector('figcaption')?.textContent;
         caption = caption ? caption : 'captionless image';
 
         if (srcset) {

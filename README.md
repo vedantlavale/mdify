@@ -114,6 +114,44 @@ npm run build
 npm run start
 ```
 
+## CLI Usage
+
+mdify also provides a powerful command-line interface for converting articles directly from your terminal.
+
+**Features:**
+- Interactive mode (prompts for URL if not provided)
+- Copy to clipboard support
+- Batch processing from a file
+- Save to custom output path
+
+**Commands:**
+
+1. **Interactive Mode:**
+   ```bash
+   npm run cli
+   ```
+
+2. **Single URL:**
+   ```bash
+   npm run cli -- <url>
+   ```
+
+3. **Copy to Clipboard:**
+   ```bash
+   npm run cli -- <url> --copy
+   ```
+
+4. **Batch Processing:**
+   Create a file `urls.txt` with one URL per line, then run:
+   ```bash
+   npm run cli -- --batch urls.txt
+   ```
+
+5. **Custom Output:**
+   ```bash
+   npm run cli -- <url> --output ./my-article.md
+   ```
+
 ## Project Structure
 
 ```
