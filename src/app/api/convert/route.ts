@@ -1,6 +1,9 @@
 import { NextResponse } from "next/server";
 import { convertToMD } from "@/lib/medium/convert";
 
+// The fetcher uses node:https
+export const runtime = "nodejs";
+
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
   const url = searchParams.get("url");

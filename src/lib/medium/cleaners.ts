@@ -3,6 +3,7 @@
 import type { CheerioAPI } from "cheerio";
 import { UNDESIRED_LINES, LINES_TO_CHECK_FOR_REMOVAL } from "./constants";
 import type { AuthorInfo } from "./types";
+import { escapeHtml } from "./escape";
 
 // Removes Medium-specific UI elements and metadata
 export function removeMediumUiElements($: CheerioAPI): void {
@@ -61,15 +62,16 @@ export function restructureArticle(
     titleElement.after(mainFigure);
   }
 
-  // Insert reference and author information
+  // Insert reference and author information. The URL and author come from the
+  // request and the scraped page, so they are escaped before becoming markup.
   const insertAfterElement =
     mainFigure.length > 0 ? mainFigure : titleElement;
 
   insertAfterElement.after(`
     <p><br></p>
-    <p><a href="${url}" target="_blank">Reference</a></p>
+    <p><a href="${escapeHtml(url)}" target="_blank">Reference</a></p>
     <p><br></p>
-    <p>by <a href="${author.profileLink}" target="_blank">${author.name}</a></p>
+    <p>by <a href="${escapeHtml(author.profileLink)}" target="_blank">${escapeHtml(author.name)}</a></p>
     <p><br></p>
   `);
 }
