@@ -2,7 +2,7 @@
 
 Convert Medium articles to clean, editable Markdown format instantly. **mdify** is the best free Medium to MD converter - a fast, user-friendly web application built with Next.js for developers and writers.
 
-🔗 **Live Demo:** [mdify.vedant.works](https://mdify.vedant.works/)
+🔗 **Live Demo:** [mdify.vedantworks.com](https://mdify.vedantworks.com/)
 
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 [![Next.js](https://img.shields.io/badge/Next.js-16.0-black)](https://nextjs.org/)
@@ -46,7 +46,7 @@ Convert Medium articles to clean, editable Markdown format instantly. **mdify** 
 
 ## 🚀 Live Demo
 
-**Try mdify now:** [mdify.vedant.works](https://mdify.vedant.works/)
+**Try mdify now:** [mdify.vedantworks.com](https://mdify.vedantworks.com/)
 
 No sign-up required. Just paste a Medium URL and convert!
 
@@ -267,19 +267,19 @@ Your support helps keep mdify free and continuously improved!
 
 ## Author
 
-Created with ❤️ by [Vedant Lavale](https://vedant.works/)
+Created with ❤️ by [Vedant Lavale](https://vedantworks.com/)
 
 - GitHub: [@vedantlavale](https://github.com/vedantlavale)
 - Twitter: [@vedantlavale](https://twitter.com/vedantlavale)
-- Website: [vedant.works](https://vedant.works/)
+- Website: [vedantworks.com](https://vedantworks.com/)
 
 ---
 
 ## Related Resources
 
-- 📖 [How to Convert Medium to Markdown](https://mdify.vedant.works/how-to-convert-medium-to-markdown) - Complete guide
-- ⚡ [mdify Features](https://mdify.vedant.works/features) - Full feature list
-- 🔧 [API Documentation](https://mdify.vedant.works/api/convert) - For developers
+- 📖 [How to Convert Medium to Markdown](https://mdify.vedantworks.com/how-to-convert-medium-to-markdown) - Complete guide
+- ⚡ [mdify Features](https://mdify.vedantworks.com/features) - Full feature list
+- 🔧 [API Documentation](https://mdify.vedantworks.com/api/convert) - For developers
 
 ---
 
