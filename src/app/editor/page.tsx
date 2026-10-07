@@ -8,6 +8,8 @@ import "highlight.js/styles/atom-one-dark.css";
 import remarkGfm from "remark-gfm";
 import rehypeHighlight from "rehype-highlight";
 import rehypeRaw from "rehype-raw";
+import rehypeSanitize from "rehype-sanitize";
+import { previewSchema } from "@/lib/sanitize-schema";
 import { ReviewToolbar } from "@/components/toolbar";
 import {
   ResizableHandle,
@@ -91,7 +93,13 @@ export default function EditorPage() {
                   <div className={`markdown-body bg-white text-black ${isMobile ? 'text-sm' : ''}`}>
                     <ReactMarkdown
                       remarkPlugins={[remarkGfm]}
-                      rehypePlugins={[rehypeRaw, rehypeHighlight]}
+                      // Sanitise after rehype-raw (which turns raw HTML into
+                      // elements) and before highlighting (which adds classes).
+                      rehypePlugins={[
+                        rehypeRaw,
+                        [rehypeSanitize, previewSchema],
+                        rehypeHighlight,
+                      ]}
                     >
                       {markdown}
                     </ReactMarkdown>

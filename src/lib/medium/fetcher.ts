@@ -1,10 +1,22 @@
 // HTTP fetching logic for Medium articles
 
-import axios, { AxiosError } from "axios";
-import { HEADERS } from "./constants";
+import { STATUS_CODES } from "node:http";
+import { FetchRejectedError, safeFetchHtml } from "./safe-fetch";
 
 // Sleep utility for retry delays
 const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
+
+// Waiting out a long Retry-After inside a request helps nobody; cap it.
+const MAX_RATE_LIMIT_WAIT_MS = 10_000;
+
+class HttpStatusError extends Error {
+  constructor(
+    readonly status: number,
+    message: string
+  ) {
+    super(message);
+  }
+}
 
 // Fetches the HTML content from a given URL with retry logic
 export async function fetchArticleHtml(
@@ -15,19 +27,14 @@ export async function fetchArticleHtml(
 
   for (let attempt = 0; attempt < maxRetries; attempt++) {
     try {
-      const response = await axios.get(url, {
-        headers: HEADERS,
-        timeout: 30000, 
-        validateStatus: (status) => status < 500, 
-      });
+      // Only public https hosts are fetched, redirects included
+      const response = await safeFetchHtml(url);
 
       // Handle rate limiting
       if (response.status === 429) {
-        const retryAfter = parseInt(
-          response.headers["retry-after"] || "60",
-          10
-        );
-        const delay = Math.min(retryAfter * 1000, 60000); 
+        const retryAfter =
+          parseInt(String(response.headers["retry-after"] ?? "60"), 10) || 60;
+        const delay = Math.min(retryAfter * 1000, MAX_RATE_LIMIT_WAIT_MS);
 
         if (attempt < maxRetries - 1) {
           console.log(
@@ -42,40 +49,28 @@ export async function fetchArticleHtml(
         );
       }
 
-      // Handle other client errors
-      if (response.status >= 400 && response.status < 500) {
-        throw new Error(
-          `Failed to fetch article: ${response.status} ${response.statusText}`
+      if (response.status >= 400) {
+        throw new HttpStatusError(
+          response.status,
+          `Failed to fetch article: ${response.status} ${STATUS_CODES[response.status] ?? ""}`.trim()
         );
       }
 
-      return response.data;
+      return response.body;
     } catch (error) {
       lastError = error as Error;
 
-      // Log the error details
-      if (axios.isAxiosError(error)) {
-        console.error(`Fetch attempt ${attempt + 1} failed:`, {
-          status: error.response?.status,
-          statusText: error.response?.statusText,
-          data: error.response?.data?.substring(0, 200), // first 200 chars
-          message: error.message,
-        });
-      } else {
-        console.error(`Fetch attempt ${attempt + 1} failed:`, error);
-      }
+      console.error(
+        `Fetch attempt ${attempt + 1} failed:`,
+        error instanceof Error ? error.message : error
+      );
 
-      // Don't retry on client errors (4xx)
-      if (axios.isAxiosError(error)) {
-        const axiosError = error as AxiosError;
-        if (
-          axiosError.response &&
-          axiosError.response.status >= 400 &&
-          axiosError.response.status < 500 &&
-          axiosError.response.status !== 429
-        ) {
-          throw error;
-        }
+      // Policy rejections and client errors (4xx) will not change on retry
+      if (
+        error instanceof FetchRejectedError ||
+        (error instanceof HttpStatusError && error.status < 500)
+      ) {
+        throw error;
       }
 
       // Exponential backoff for retries

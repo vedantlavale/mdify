@@ -43,7 +43,7 @@ export default function Page() {
         itemProp="description"
         content="Convert Medium articles to Markdown format instantly"
       />
-      <meta itemProp="url" content="https://mdify.vedant.works/" />
+      <meta itemProp="url" content="https://mdify.vedantworks.com/" />
       <meta itemProp="applicationCategory" content="ProductivityApplication" />
 
       {/* GradientBlinds Background */}

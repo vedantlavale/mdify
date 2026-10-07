@@ -20,11 +20,11 @@ export const metadata: Metadata = {
     title: "How to Convert Medium Articles to Markdown | mdify Guide",
     description:
       "Step-by-step guide to convert Medium articles to Markdown format using mdify. Free, fast, and easy.",
-    url: "https://mdify.vedant.works/how-to-convert-medium-to-markdown",
+    url: "https://mdify.vedantworks.com/how-to-convert-medium-to-markdown",
     type: "article",
   },
   alternates: {
-    canonical: "https://mdify.vedant.works/how-to-convert-medium-to-markdown",
+    canonical: "https://mdify.vedantworks.com/how-to-convert-medium-to-markdown",
   },
 };
 
@@ -48,35 +48,35 @@ export default function HowToConvertPage() {
         position: 1,
         name: "Find the Medium Article",
         text: "Navigate to the Medium article you want to convert to Markdown and copy its URL from your browser's address bar.",
-        url: "https://mdify.vedant.works/how-to-convert-medium-to-markdown#step-1",
+        url: "https://mdify.vedantworks.com/how-to-convert-medium-to-markdown#step-1",
       },
       {
         "@type": "HowToStep",
         position: 2,
         name: "Open mdify",
-        text: "Go to mdify.vedant.works, the free Medium to Markdown converter tool.",
-        url: "https://mdify.vedant.works/how-to-convert-medium-to-markdown#step-2",
+        text: "Go to mdify.vedantworks.com, the free Medium to Markdown converter tool.",
+        url: "https://mdify.vedantworks.com/how-to-convert-medium-to-markdown#step-2",
       },
       {
         "@type": "HowToStep",
         position: 3,
         name: "Paste the URL",
         text: "Paste the Medium article URL into the input field on the mdify homepage.",
-        url: "https://mdify.vedant.works/how-to-convert-medium-to-markdown#step-3",
+        url: "https://mdify.vedantworks.com/how-to-convert-medium-to-markdown#step-3",
       },
       {
         "@type": "HowToStep",
         position: 4,
         name: "Convert to Markdown",
         text: "Click the &apos;Convert to MD&apos; button. mdify will instantly convert the Medium article to Markdown format.",
-        url: "https://mdify.vedant.works/how-to-convert-medium-to-markdown#step-4",
+        url: "https://mdify.vedantworks.com/how-to-convert-medium-to-markdown#step-4",
       },
       {
         "@type": "HowToStep",
         position: 5,
         name: "Edit and Download",
         text: "Review the Markdown output, make any edits if needed, and download the .md file or copy it to your clipboard.",
-        url: "https://mdify.vedant.works/how-to-convert-medium-to-markdown#step-5",
+        url: "https://mdify.vedantworks.com/how-to-convert-medium-to-markdown#step-5",
       },
     ],
   };
@@ -148,7 +148,7 @@ export default function HowToConvertPage() {
               </h2>
               <ol className="list-decimal pl-6 text-black space-y-2">
                 <li>Copy your Medium article URL</li>
-                <li>Visit mdify.vedant.works</li>
+                <li>Visit mdify.vedantworks.com</li>
                 <li>Paste the URL and click &quot;Convert to MD&quot;</li>
                 <li>Download your Markdown file</li>
               </ol>
@@ -204,7 +204,7 @@ export default function HowToConvertPage() {
                       href="/"
                       className="text-black hover:underline font-semibold"
                     >
-                      mdify.vedant.works
+                      mdify.vedantworks.com
                     </Link>
                     . No sign-up or registration required - just open the
                     website and you&apos;re ready to convert Medium articles to

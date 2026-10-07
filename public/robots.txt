@@ -5,28 +5,29 @@ User-agent: *
 Allow: /
 Allow: /editor
 Allow: /how-to-convert-medium-to-markdown
-Allow: /features
 
-# Optimize crawl budget - allow convert API, block other APIs
-Allow: /api/convert
+# Keep crawlers out of the APIs
 Disallow: /api/
 Disallow: /_next/
 Disallow: /node_modules/
 
 # Sitemaps
-Sitemap: https://mdify.vedant.works/sitemap.xml
+Sitemap: https://mdify.vedantworks.com/sitemap.xml
 
 # Special rules for major search engines
 User-agent: Googlebot
 Allow: /
+Disallow: /api/
 Crawl-delay: 0
 
 User-agent: Bingbot
 Allow: /
+Disallow: /api/
 Crawl-delay: 0
 
 User-agent: Slurp
 Allow: /
+Disallow: /api/
 Crawl-delay: 1
 
 # Block bad bots

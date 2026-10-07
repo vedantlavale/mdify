@@ -2,6 +2,7 @@
 
 import TurndownService from "turndown";
 import { MEDIUM_URL_PREFIX } from "./constants";
+import { escapeHtml } from "./escape";
 
 // Initializes and configures the Turndown service with custom rules
 export function initializeTurndownService(): TurndownService {
@@ -64,7 +65,8 @@ export function initializeTurndownService(): TurndownService {
         return `![${caption}](${imgSrc})`;
       }
 
-      return `<b>[other]${caption}[/other]</b>`;
+      // The caption is page text but lands in an HTML fragment: escape it.
+      return `<b>[other]${escapeHtml(caption)}[/other]</b>`;
     },
   });
 
