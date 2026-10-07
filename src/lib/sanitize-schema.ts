@@ -11,7 +11,7 @@
 import { defaultSchema, type Options } from "rehype-sanitize";
 
 const EMBED_SRC =
-  /^https:\/\/(www\.)?(youtube\.com|youtube-nocookie\.com|player\.vimeo\.com|medium\.com|gist\.github\.com|cdn\.embedly\.com|codepen\.io|codesandbox\.io)\//;
+  /^https:\/\/(www\.)?(youtube\.com|youtube-nocookie\.com|player\.vimeo\.com|medium\.com|gist\.github\.com|cdn\.embedly\.com)\//;
 
 export const previewSchema: Options = {
   ...defaultSchema,
