@@ -147,7 +147,10 @@ function requestOnce(url: URL, { deadline, maxBytes }: RequestLimits): Promise<R
       url,
       {
         method: "GET",
-        headers: { ...HEADERS, Connection: "close" },
+        // Host goes first on purpose: node:https appends it last unless it is
+        // given up front, and Medium's bot filter returns 403 for that order
+        // (browsers and undici's fetch send Host first).
+        headers: { Host: url.host, ...HEADERS, Connection: "close" },
         lookup: guardedLookup,
         agent: false,
       },
