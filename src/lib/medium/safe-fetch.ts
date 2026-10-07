@@ -14,6 +14,7 @@ import dns from "node:dns";
 import { BlockList, isIP } from "node:net";
 import type { Readable } from "node:stream";
 import type { IncomingHttpHeaders } from "node:http";
+import type { ConnectionOptions } from "node:tls";
 import { createBrotliDecompress, createGunzip, createInflate } from "node:zlib";
 import { HEADERS } from "./constants";
 
@@ -130,6 +131,30 @@ type RawResponse = {
 
 type RequestLimits = { deadline: number; maxBytes: number };
 
+// Medium sits behind a bot filter that fingerprints the client. Production
+// has always fetched with undici's fetch(), which it accepts, so this mirrors
+// that client's handshake and header sequence exactly. Both differences below
+// were found to turn into a 403:
+//   - HTTP: undici sends host, then connection, then the remaining headers in
+//     order. node:https appends Host last unless it is given up front.
+//   - TLS: undici advertises ALPN "http/1.1" (see ALPN_PROTOCOLS below);
+//     node:https sends no ALPN extension, which changes the JA3/JA4 fingerprint.
+const FORWARDED_HEADERS = Object.fromEntries(
+  Object.entries(HEADERS).filter(([name]) => name.toLowerCase() !== "connection")
+);
+
+function requestHeaders(url: URL) {
+  return {
+    host: url.host,
+    connection: "keep-alive",
+    ...FORWARDED_HEADERS,
+    // fetch() overrides this one; keep the value production has been sending
+    "Sec-Fetch-Mode": "cors",
+  };
+}
+
+const ALPN_PROTOCOLS = ["http/1.1"];
+
 function requestOnce(url: URL, { deadline, maxBytes }: RequestLimits): Promise<RawResponse> {
   return new Promise((resolve, reject) => {
     const remaining = deadline - Date.now();
@@ -141,19 +166,22 @@ function requestOnce(url: URL, { deadline, maxBytes }: RequestLimits): Promise<R
       settled = true;
       clearTimeout(timer);
       fn();
+      // The request advertises keep-alive and uses no shared agent, so close
+      // the socket ourselves once the outcome is known.
+      req.destroy();
+    };
+
+    const options: https.RequestOptions & ConnectionOptions = {
+      method: "GET",
+      headers: requestHeaders(url),
+      lookup: guardedLookup,
+      agent: false,
+      ALPNProtocols: ALPN_PROTOCOLS,
     };
 
     const req = https.request(
       url,
-      {
-        method: "GET",
-        // Host goes first on purpose: node:https appends it last unless it is
-        // given up front, and Medium's bot filter returns 403 for that order
-        // (browsers and undici's fetch send Host first).
-        headers: { Host: url.host, ...HEADERS, Connection: "close" },
-        lookup: guardedLookup,
-        agent: false,
-      },
+      options,
       (res) => {
         const status = res.statusCode ?? 0;
         const headers = res.headers;
